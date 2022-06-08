@@ -1,12 +1,14 @@
 const loggedIn = localStorage.getItem('loggedIn')
 
+const HOST = 'http://localhost:3000/'
+
 if (loggedIn != null) {
     let user = {
         id: loggedIn
     };
     console.log("Trying to restore session...")
 
-    fetch('restore', {
+    fetch(HOST + 'users', {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -30,25 +32,47 @@ if (loggedIn == null) {
 
 //Page to show in the browser when log in is successful
 function setLoggedInScreen(data) {
-  loginResult.textContent = `Test Cpmpany Co.ltd `;
-  //create add new document button.
-  const addNewDocumentBtn = document.createElement("button");
-  addNewDocumentBtn.innerText =  "Add new docoment";
-  loginResult.append(addNewDocumentBtn);
-  //add id to newDocument btn.
-  addNewDocumentBtn.setAttribute("id", "newDocument");
+  let username = data.email;
+  let upperName = username.toUpperCase();
+  loginResult.textContent = `✨ You are log in ${upperName} ✨  `;
+  //create subscribe button.
+  const subscribeBtn = document.createElement("button");
+  subscribeBtn.innerText = (data.subscribe ? "UN" : "") + "SUBSCRIBE";
+  loginResult.append(subscribeBtn);
+  //add id to subscribe btn.
+  subscribeBtn.setAttribute("id", "subscribe");
 
   //css, message
   loginResult.style.display = "flex";
   loginResult.style.flexDirection = "column";
   loginResult.style.fontFamily = "Rubik";
-  //css, newDocument button
-  addNewDocumentBtn.style.height = "60px";
-  addNewDocumentBtn.style.width = "400px";
-  addNewDocumentBtn.style.margin = "30px";
+  //css, subscribe button
+  subscribeBtn.style.height = "60px";
+  subscribeBtn.style.width = "400px";
+  subscribeBtn.style.margin = "30px";
  
   //hide section(login) area.
   document.querySelector("section").style.display = "none";
+
+  //click button => subscribe
+  const setSubscribe = document.getElementById("subscribe");
+  setSubscribe.addEventListener("click", settingSubscribe);
+
+  //Subscribe button
+  function settingSubscribe(){
+     subscribeBtn.disabled = "disabled";
+     subscribeBtn.innerText = (data.subscribe ? "You are now unsubscribed" : "Thank you for your subscription　📫") ;
+
+    data.subscribe = !data.subscribe;
+
+    fetch(HOST + 'subscribe', {
+        method: 'put',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+    })
+  }
 
   //create back to page button.
   const backBtn = document.createElement("button");
@@ -84,13 +108,24 @@ function loginScreen(){
     <div id="loginResult">
         <h2>Log in</h2>
         <form>
-            <input type="text" id="email" placeholder="username">
+            <input type="text" id="email" placeholder="email/username">
             <input type="password" id="password" placeholder="password">
             <input type="submit" id="loginBtn" value="Log In">
         </form>
     </div>
-    
-    <ol id="newDocument"></ol>
+    <section>
+    <h2>Are you new? Sign up!</h2>
+    <div>
+        <form>
+            <input type="text" id="signupEmail" placeholder="email/username">
+            <input type="password" id="signupPassword" placeholder="password">
+            <input type="submit" id="signupBtn" value="Sign Up">
+        </form>
+    </div>
+    </section>
+    <ol id="signupForm"></ol>
+    <div id="subscribedTitle"></div>
+    <ol id="subscriber"></ol>
     <div id="adminBtn"></div>`
     //Log in button
     document.getElementById('loginBtn').addEventListener('click', (e)=>{
@@ -105,7 +140,7 @@ function loginScreen(){
             password: password
         };
 
-        fetch('login', {
+        fetch(HOST + 'login', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -124,4 +159,28 @@ function loginScreen(){
         });
     });
 
+    //Sign up button
+    document.getElementById('signupBtn').addEventListener('click', (e)=>{
+
+        e.preventDefault();
+
+        let email = document.getElementById('signupEmail').value;
+        let password = document.getElementById('signupPassword').value;
+
+        let user = {
+            email: email,
+            password: password,
+            subscribe: false
+        };
+
+        fetch(HOST + 'signup', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .then(data => setLoggedInScreen(data))
+    });
 }
