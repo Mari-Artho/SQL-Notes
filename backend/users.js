@@ -8,16 +8,16 @@ req.app.locals.con.connect(function(err){
   if(err){
     console.log(err)
   }
-  let rubrik = "Project T";
-  let text = "Cultivating new customers.";
-  let employeeName = "Obama Carlsson";
+  let userName = "Mari";
+  let password = "test";
+  let fullName = "Mari Artho";
   //Send data to database
-  // let sql = `
-  //   INSERT INTO note( rubrik, text, employeeName) 
-  //   VALUES("${rubrik}","${text}", "${employeeName}")
-  // `
+  let sql = `
+    INSERT INTO users( userName, password, fullName) 
+    VALUES("${userName}","${password}", "${fullName}")
+  `
 
-  let sql = ` SELECT * FROM note `
+  //let sql = ` SELECT * FROM note `
 
 
   req.app.locals.con.query(sql, function(err, result){
@@ -25,10 +25,10 @@ req.app.locals.con.connect(function(err){
       console.log(err);
     }
     console.log("result", result);
-    res.send(result);
+   // res.send(result);
   })
 })
-  //res.send('respond with a resource');
+  res.send('respond with a resource');
 });
 
 module.exports = router;
