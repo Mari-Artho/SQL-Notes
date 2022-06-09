@@ -1,5 +1,3 @@
-const loggedIn = localStorage.getItem('loggedIn')
-
 const HOST = 'http://localhost:3000/'
 
 loginScreen();
@@ -27,10 +25,10 @@ function setLoggedInScreen(data) {
 
   //click button => create new doument
   const setNewDocument = document.getElementById("newDocument");
-  setNewDocument.addEventListener("click", setttingNewDocument);
+  setNewDocument.addEventListener("click", addNewDocument);
 
   //SettingNewDocument button
-  function setttingNewDocument(){
+  function addNewDocument(){
     //newDocumentBtn.disabled = "disabled";
     //newDocumentBtn.innerText = "Write here!!" ;
 
@@ -52,13 +50,12 @@ function setLoggedInScreen(data) {
 
   //back button
   function backBtnClick() {
-      localStorage.removeItem("loggedIn")
       location.href = "index.html"
   }
 
   //css, backBtn
-  backBtn.style.height = "40px";
-  backBtn.style.width = "100px";
+  backBtn.style.height = "30px";
+  backBtn.style.width = "90px";
   backBtn.style.margin = "30px";
   const backLink = document.getElementById("backLink");
   backLink.style.textDecoration = "none";
@@ -109,7 +106,6 @@ function loginScreen(){
             if (data.userName != ""){ 
                 // empty user data <=> login failed
                 setLoggedInScreen(data);
-                localStorage.setItem('loggedIn', data._id);
             } else {
                 loginFailMessage();
             }
