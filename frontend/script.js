@@ -2,33 +2,7 @@ const loggedIn = localStorage.getItem('loggedIn')
 
 const HOST = 'http://localhost:3000/'
 
-if (loggedIn != null) {
-    let user = {
-        id: loggedIn
-    };
-    console.log("Trying to restore session...")
-
-    fetch(HOST + 'users', {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.userName != ""){
-            document.body.innerHTML = '<div id="loginResult"></div><section></section>'
-            setLoggedInScreen(data);
-        } else {
-            loggedIn = null
-        }
-    })
-}
-
-if (loggedIn == null) {
-    loginScreen();
-}
+loginScreen();
 
 //Page to show in the browser when log in is successful
 function setLoggedInScreen(data) {
