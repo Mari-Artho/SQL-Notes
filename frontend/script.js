@@ -15,9 +15,9 @@ if (loggedIn != null) {
         },
         body: JSON.stringify(user)
     })
-    .then(res => res.json()) // parse result
+    .then(res => res.json())
     .then(data => {
-        if (data.email != ""){
+        if (data.userName != ""){
             document.body.innerHTML = '<div id="loginResult"></div><section></section>'
             setLoggedInScreen(data);
         } else {
@@ -32,40 +32,35 @@ if (loggedIn == null) {
 
 //Page to show in the browser when log in is successful
 function setLoggedInScreen(data) {
-  let username = data.email;
-  let upperName = username.toUpperCase();
-  loginResult.textContent = `✨ You are log in ${upperName} ✨  `;
-  //create subscribe button.
-  const subscribeBtn = document.createElement("button");
-  subscribeBtn.innerText = (data.subscribe ? "UN" : "") + "SUBSCRIBE";
-  loginResult.append(subscribeBtn);
+  let userName = data.userName;
+  let upperName = userName.toUpperCase();
+  loginResult.textContent = `Log in user : ${upperName}   `;
+  //create new document button.
+  const newDocumentBtn = document.createElement("button");
+  newDocumentBtn.innerText = " + Create a new document";
+  loginResult.append(newDocumentBtn);
   //add id to subscribe btn.
-  subscribeBtn.setAttribute("id", "subscribe");
+  newDocumentBtn.setAttribute("id", "newDocument");
 
   //css, message
   loginResult.style.display = "flex";
   loginResult.style.flexDirection = "column";
   loginResult.style.fontFamily = "Rubik";
   //css, subscribe button
-  subscribeBtn.style.height = "60px";
-  subscribeBtn.style.width = "400px";
-  subscribeBtn.style.margin = "30px";
- 
-  //hide section(login) area.
-  document.querySelector("section").style.display = "none";
+  newDocumentBtn.style.height = "30px";
+  newDocumentBtn.style.width = "200px";
+  newDocumentBtn.style.margin = "30px";
 
-  //click button => subscribe
-  const setSubscribe = document.getElementById("subscribe");
-  setSubscribe.addEventListener("click", settingSubscribe);
+  //click button => create new doument
+  const setNewDocument = document.getElementById("newDocument");
+  setNewDocument.addEventListener("click", setttingNewDocument);
 
-  //Subscribe button
-  function settingSubscribe(){
-     subscribeBtn.disabled = "disabled";
-     subscribeBtn.innerText = (data.subscribe ? "You are now unsubscribed" : "Thank you for your subscription　📫") ;
+  //SettingNewDocument button
+  function setttingNewDocument(){
+    //newDocumentBtn.disabled = "disabled";
+    //newDocumentBtn.innerText = "Write here!!" ;
 
-    data.subscribe = !data.subscribe;
-
-    fetch(HOST + 'subscribe', {
+    fetch(HOST + 'users', {
         method: 'put',
     headers: {
         'Content-Type': 'application/json'
@@ -108,35 +103,23 @@ function loginScreen(){
     <div id="loginResult">
         <h2>Log in</h2>
         <form>
-            <input type="text" id="email" placeholder="email/username">
+            <input type="text" id="userName" placeholder="username">
             <input type="password" id="password" placeholder="password">
             <input type="submit" id="loginBtn" value="Log In">
         </form>
     </div>
-    <section>
-    <h2>Are you new? Sign up!</h2>
-    <div>
-        <form>
-            <input type="text" id="signupEmail" placeholder="email/username">
-            <input type="password" id="signupPassword" placeholder="password">
-            <input type="submit" id="signupBtn" value="Sign Up">
-        </form>
-    </div>
-    </section>
-    <ol id="signupForm"></ol>
-    <div id="subscribedTitle"></div>
-    <ol id="subscriber"></ol>
+    
     <div id="adminBtn"></div>`
     //Log in button
     document.getElementById('loginBtn').addEventListener('click', (e)=>{
 
         e.preventDefault();
 
-        let email = document.getElementById('email').value;
+        let userName = document.getElementById('userName').value;
         let password = document.getElementById('password').value;
 
         let user = {
-            email: email,
+            userName: userName,
             password: password
         };
 
@@ -149,7 +132,7 @@ function loginScreen(){
         })
         .then(res => res.json()) // parse result
         .then(data => {
-            if (data.email != ""){ 
+            if (data.userName != ""){ 
                 // empty user data <=> login failed
                 setLoggedInScreen(data);
                 localStorage.setItem('loggedIn', data._id);
@@ -157,30 +140,5 @@ function loginScreen(){
                 loginFailMessage();
             }
         });
-    });
-
-    //Sign up button
-    document.getElementById('signupBtn').addEventListener('click', (e)=>{
-
-        e.preventDefault();
-
-        let email = document.getElementById('signupEmail').value;
-        let password = document.getElementById('signupPassword').value;
-
-        let user = {
-            email: email,
-            password: password,
-            subscribe: false
-        };
-
-        fetch(HOST + 'signup', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        })
-        .then(res => res.json())
-        .then(data => setLoggedInScreen(data))
     });
 }
