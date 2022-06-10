@@ -34,7 +34,10 @@ function setLoggedInScreen(data) {
   const newContent = document.createTextNode(`新しいドキュメントを書いてね`);
   const newDocument = document.getElementById('newDocument');
   document.body.innerHTML = `
-  <header>Here is aside!!</header>
+  <header style="margin: 30px">ARTHO.Co.,Ltd.</header>
+  <button>Add new document</button>
+  <button>Change document</button>
+  <button>Delete document</button>
   <textarea id="textContent"></textarea>
   <button id="saveBtn">SAVE</button>
   <div id="textResult"></div>`;
@@ -52,7 +55,7 @@ function setLoggedInScreen(data) {
         })
     }
 })
-
+//tinymce, WYSIWYG event butoon => SAVE
 document.getElementById("saveBtn").addEventListener("click", function(){
     document.getElementById("textResult").innerHTML = document.getElementById("textContent").value;
 })
