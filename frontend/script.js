@@ -26,35 +26,41 @@ function setLoggedInScreen(data) {
   //click button => create new doument
   const setNewDocument = document.getElementById("newDocumentBtn");
   setNewDocument.addEventListener("click", (e)=>{
-    e.preventDefault();
 
-    //create new div
-    const newDiv = document.createElement("div");
-    const newContent = document.createTextNode("新しいドキュメントを書いてね！");
-    newDocument.appendChild(newContent);
-    newDiv.setAttribute("id", "newDocument");
+     e.preventDefault();
+
+  const newDiv = document.createElement("div");
+  newDiv.setAttribute("id", "newDocument");
+  const newContent = document.createTextNode(`新しいドキュメントを書いてね`);
+  const newDocument = document.getElementById('newDocument');
+  document.body.innerHTML = `
+  <header>Here is aside!!</header>
+  <textarea id="textContent"></textarea>
+  <button id="saveBtn">SAVE</button>
+  <div id="textResult"></div>`;
+  newDocument.appendChild(newContent);
+
+ //tinymce, WYSIWYG
+ tinymce.init({
+    selector: '#textContent',
+    plugins: "code",
+    toolbar: " undo redo forecolor backcolor stylesselect | bold | italic alignleft alignright code",
+
+    setup: function(editor){
+        editor.on("change", function(){
+            editor.save();
+        })
+    }
+})
+
+document.getElementById("saveBtn").addEventListener("click", function(){
+    document.getElementById("textResult").innerHTML = document.getElementById("textContent").value;
+})
 
 
 
   });
 
-  //SettingNewDocument button
-  function addNewDocument(){
-    
-    //create new div
-    const newDiv = document.createElement("div");
-    const newContent = document.createTextNode("新しいドキュメントを書いてね！");
-    newDiv.appendChild(newContent);
-    newDiv.setAttribute("id", "newDocument");
-
-    // fetch(HOST + 'users', {
-    //     method: 'put',
-    // headers: {
-    //     'Content-Type': 'application/json'
-    // },
-    // body: JSON.stringify(data)
-    // })
-  }
 
   //create back to page button.
   const backBtn = document.createElement("button");
@@ -95,8 +101,7 @@ function loginScreen(){
     </div>
 
     <div id="newDocument"></div>
-    
-    <div id="adminBtn"></div>`
+    `
     //Log in button
     document.getElementById('loginBtn').addEventListener('click', (e)=>{
 
