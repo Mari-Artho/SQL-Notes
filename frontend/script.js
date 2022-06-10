@@ -38,8 +38,11 @@ function setLoggedInScreen(data) {
   <button>Add new document</button>
   <button>Change document</button>
   <button>Delete document</button>
+  <p>Title</p>
+  <textarea id="textTitle"></textarea>
   <textarea id="textContent"></textarea>
   <button id="saveBtn">SAVE</button>
+  <div id="textTitleResult"></div>
   <div id="textResult"></div>`;
   newDocument.appendChild(newContent);
 
@@ -48,6 +51,7 @@ function setLoggedInScreen(data) {
     selector: '#textContent',
     plugins: "code",
     toolbar: " undo redo forecolor backcolor stylesselect | bold | italic alignleft alignright code",
+    readonly : 1,
 
     setup: function(editor){
         editor.on("change", function(){
@@ -55,15 +59,32 @@ function setLoggedInScreen(data) {
         })
     }
 })
-//tinymce, WYSIWYG event butoon => SAVE
-document.getElementById("saveBtn").addEventListener("click", function(){
-    document.getElementById("textResult").innerHTML = document.getElementById("textContent").value;
-})
-
-
+    //tinymce, WYSIWYG event butoon => SAVE
+    document.getElementById("saveBtn").addEventListener("click", function(){
+        document.getElementById("textTitleResult").innerHTML = document.getElementById("textTitle").value;
+        document.getElementById("textResult").innerHTML = document.getElementById("textContent").value;
+    })
+    
+    //send data to database.
+    let content = document.getElementById("textContent").value;
+    let title = "タイトル決まってない";
+    let newText = {
+        title: title,
+        content: content
+    };
+    fetch(HOST + 'login', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newText)
+    })
+    .then(res => res.json()) // parse result
+    .then(data => {
+        console.log(data);
+    });
 
   });
-
 
   //create back to page button.
   const backBtn = document.createElement("button");
