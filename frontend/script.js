@@ -12,7 +12,7 @@ function setLoggedInScreen(data) {
   newDocumentBtn.innerText = " + Create a new document";
   loginResult.append(newDocumentBtn);
   //add id to subscribe btn.
-  newDocumentBtn.setAttribute("id", "newDocument");
+  newDocumentBtn.setAttribute("id", "newDocumentBtn");
 
   //css, message
   loginResult.style.display = "flex";
@@ -24,21 +24,36 @@ function setLoggedInScreen(data) {
   newDocumentBtn.style.margin = "30px";
 
   //click button => create new doument
-  const setNewDocument = document.getElementById("newDocument");
-  setNewDocument.addEventListener("click", addNewDocument);
+  const setNewDocument = document.getElementById("newDocumentBtn");
+  setNewDocument.addEventListener("click", (e)=>{
+    e.preventDefault();
+
+    //create new div
+    const newDiv = document.createElement("div");
+    const newContent = document.createTextNode("新しいドキュメントを書いてね！");
+    newDocument.appendChild(newContent);
+    newDiv.setAttribute("id", "newDocument");
+
+
+
+  });
 
   //SettingNewDocument button
   function addNewDocument(){
-    //newDocumentBtn.disabled = "disabled";
-    //newDocumentBtn.innerText = "Write here!!" ;
+    
+    //create new div
+    const newDiv = document.createElement("div");
+    const newContent = document.createTextNode("新しいドキュメントを書いてね！");
+    newDiv.appendChild(newContent);
+    newDiv.setAttribute("id", "newDocument");
 
-    fetch(HOST + 'users', {
-        method: 'put',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-    })
+    // fetch(HOST + 'users', {
+    //     method: 'put',
+    // headers: {
+    //     'Content-Type': 'application/json'
+    // },
+    // body: JSON.stringify(data)
+    // })
   }
 
   //create back to page button.
@@ -64,7 +79,6 @@ function setLoggedInScreen(data) {
 
 function loginFailMessage(){
     alert("Log in failed. Please try again.");
-    
 }
 
 //show login screen
@@ -79,6 +93,8 @@ function loginScreen(){
             <input type="submit" id="loginBtn" value="Log In">
         </form>
     </div>
+
+    <div id="newDocument"></div>
     
     <div id="adminBtn"></div>`
     //Log in button
