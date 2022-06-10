@@ -5,8 +5,9 @@ loginScreen();
 //Page to show in the browser when log in is successful
 function setLoggedInScreen(data) {
   let userName = data.userName;
+  let userId = data.id;
   let upperName = userName.toUpperCase();
-  loginResult.textContent = `Log in user : ${upperName}   `;
+  loginResult.textContent = `Log in user : ${upperName} (ID ${userId})  `;
   //create new document button.
   const newDocumentBtn = document.createElement("button");
   newDocumentBtn.innerText = " + Create a new document";
@@ -64,16 +65,18 @@ function setLoggedInScreen(data) {
     document.getElementById("saveBtn").addEventListener("click", function(){
         document.getElementById("textTitleResult").innerHTML = document.getElementById("textTitle").value;
         document.getElementById("textResult").innerHTML = document.getElementById("textContent").value;
-    })
+    
     
     //send data to database.
+    let title = document.getElementById("textTitle").value;
     let content = document.getElementById("textContent").value;
-    let title = "タイトル決まってない";
     let newText = {
+        userId: userId,
         title: title,
         content: content
     };
-    fetch(HOST + 'login', {
+    console.log(newText)
+    fetch(HOST + 'documents/new', {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -84,8 +87,9 @@ function setLoggedInScreen(data) {
     .then(data => {
         console.log(data);
     });
-
   });
+})
+
 
   //create back to page button.
   const backBtn = document.createElement("button");
