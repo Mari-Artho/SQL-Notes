@@ -38,6 +38,7 @@ function setLoggedInScreen(data) {
   <button>Add new document</button>
   <button>Change document</button>
   <button>Delete document</button>
+  <br>
   <p>Title</p>
   <textarea id="textTitle"></textarea>
   <textarea id="textContent"></textarea>
