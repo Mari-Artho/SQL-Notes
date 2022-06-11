@@ -60,6 +60,19 @@ function setLoggedInScreen(data) {
                 title.innerText = doc.title
                 let text = document.getElementById("textContent")
                 text.innerHTML = doc.content
+                 //tinymce, WYSIWYG
+ tinymce.init({
+    selector: '#textContent',
+    plugins: "code",
+    toolbar: " undo redo forecolor backcolor stylesselect | bold | italic alignleft alignright code",
+    readonly : 1,
+
+    setup: function(editor){
+        editor.on("change", function(){
+            editor.save();
+        })
+    }
+})
             })
         }
         )
