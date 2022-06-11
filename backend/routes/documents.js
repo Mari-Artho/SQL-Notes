@@ -26,7 +26,20 @@ router.get('/:id', function(req, res, next) {
 
 router.post('/update', function(req, res) {
     console.log("Update: " + req.body.id + ": " + req.body.title)
-    //UPDATE `documents` SET `title` = 'Test2!', `content` = 'Another test!' WHERE `documents`.`id` = 2; 
+    let con = req.app.locals.con;
+    con.connect(function(err) {
+        if (err) {
+            console.log(err)
+        }
+        let sql = `UPDATE documents SET title = ?, content = ? ` +
+        `WHERE documents.id = ?`;
+        let query = con.format(sql, [req.body.title, req.body.content, req.body.id]);
+        con.query(query, function(err, result) {
+            if (err) {
+                console.log(err)
+            }
+        })
+    })
 })
 
 router.post('/new', function(req, res) {
