@@ -2,21 +2,26 @@ var express = require('express');
 const req = require('express/lib/request');
 var router = express.Router();
 const mysql = require('mysql2');
-//let con = req.app.locals.con;
 
 router.get('/:id', function(req, res, next) {
-    req.app.locals.con.connect(function(err) {
+    let con = req.app.locals.con;
+    console.log(req.params.id);
+    con.connect(function(err) {
         if (err) {
             console.log(err)
         }
 
-        let sql = `SELECT * FROM documents` +
-        `INNER JOIN authorship ON authorship.documentID=documents.ID AND` +
-        `authorship.userID = ?`
-        let query = req.app.locals.con.format(sql, [req.body.userID]);
-   
+        let sql = `SELECT * FROM documents ` +
+        `INNER JOIN authorship ON authorship.documentID=documents.ID AND ` +
+        `authorship.authorID = ?`
+        let query = con.format(sql, [req.params.id]);
+        con.query(query, function(err, result) {
+            if (err) {
+                console.log(err)
+            }
+            res.send(result)
+        })
     })
-    //res.send('hello')
 })
 
 router.post('/new', function(req, res) {

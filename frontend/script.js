@@ -7,7 +7,7 @@ function setLoggedInScreen(data) {
   let userName = data.userName;
   let userId = data.id;
   let upperName = userName.toUpperCase();
-  loginResult.textContent = `Log in user : ${upperName} (ID ${userId})  `;
+  loginResult.textContent = `Log in user : ${upperName} (ID: ${userId})  `;
   //create new document button.
   const newDocumentBtn = document.createElement("button");
   newDocumentBtn.innerText = " + Create a new document";
@@ -83,7 +83,11 @@ function setLoggedInScreen(data) {
         },
         body: JSON.stringify(newText)
     })
-    .then(res => res.json()) // parse result
+    // TODO: check if result == "ok"
+    // if not, show alert
+    // otherwise show somewhere that document is saved
+    // and perhaps switch to read-only?
+    //.then(res => res.json()) // parse result
     .then(data => {
         console.log(data);
     });
