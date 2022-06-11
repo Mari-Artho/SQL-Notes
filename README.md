@@ -10,39 +10,53 @@ The example code is not designed with security in mind.
 
 ## Front file
 npm init
+
 npm i tinymce 
 
 ##
 userName: janne
+
 password: test
 
 userName: mari
+
 password: test
 
 userName: ed
+
 password: test
 
 userName: anna
+
 password: test
 
 userName: nana
+
 password: test
 
 
 ## Backend file
 npm i
+
 npm i mysql2
+
 npm i cors
 
 ## mySQL settings
 host: "localhost",
+
 port: "8889",
+
 user: "usernote",
+
 password: "usernote",
+
 database: "usernote"
 
 ## There are three tables.
 table authorship => authorID, documentID
+
 table users => id, userName, password, fullName
+
 table documents =>  id, title, content
 
