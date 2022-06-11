@@ -38,7 +38,7 @@ function setLoggedInScreen(data) {
       let p = document.createElement("p");
       p.innerText = "Your documents:"
       documents.append(p)
-      let list = document.createElement("ul")
+      let list = document.createElement("ol")
       data.forEach(doc => {
         console.log(doc)
         let li = document.createElement("li")
@@ -46,8 +46,9 @@ function setLoggedInScreen(data) {
         let button = document.createElement("button")
         button.innerText = "View"
         let div = document.createElement("div")
-        div.append(doc.title + " ")
         div.append(button)
+        div.append(" " + doc.title)
+        
         li.append(div)
         button.addEventListener("click", (e) => {
             e.preventDefault();

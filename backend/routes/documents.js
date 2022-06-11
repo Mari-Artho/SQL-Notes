@@ -11,6 +11,7 @@ router.get('/:id', function(req, res, next) {
             console.log(err)
         }
 
+        // use prepared statement to avoid SQL injection
         let sql = `SELECT * FROM documents ` +
         `INNER JOIN authorship ON authorship.documentID=documents.ID AND ` +
         `authorship.authorID = ?`
