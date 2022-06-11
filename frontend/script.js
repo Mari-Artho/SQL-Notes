@@ -2,12 +2,13 @@ const HOST = 'http://localhost:3000/'
 
 loginScreen();
 
+//tinyMCE fof WYSIWYG
 function tinyMCEInit() {
     tinymce.init({
         selector: '#textContent',
         plugins: "code",
         toolbar: " undo redo forecolor backcolor stylesselect | bold | italic alignleft alignright code",
-        readonly : 1,
+        //readonly : 1,
     
         setup: function(editor){
             editor.on("change", function(){
@@ -23,8 +24,8 @@ function setLoggedInScreen(data) {
   let userId = data.id;
   let upperName = userName.toUpperCase();
   loginResult.textContent = `Logged in user : ${upperName} (ID: ${userId})  `;
-  // get list of all documents from that user
 
+  // get list of all documents from that user
   fetch(HOST + 'documents/' + userId, {
     method: 'get',
     headers: {
@@ -57,10 +58,10 @@ function setLoggedInScreen(data) {
             const newDiv = document.createElement("div");
             newDiv.setAttribute("id", "newDocument");
             document.body.innerHTML = `
-  <p>Title</p>
-  <p id="textTitle"></p>
-  <div id="textContent"></div>
-  <button id="editBtn">Edit</button>`
+                <p>Title</p>
+                <p id="textTitle"></p>
+                <div id="textContent"></div>
+                <button id="editBtn">Edit</button>`
             let title = document.getElementById("textTitle")
             title.innerText = doc.title
             let text = document.getElementById("textContent")
@@ -76,8 +77,8 @@ function setLoggedInScreen(data) {
                 title.innerText = doc.title
                 let text = document.getElementById("textContent")
                 text.innerHTML = doc.content
-                //tinymce, WYSIWYG
-                tinyMCEInit()
+    //tinymce, WYSIWYG
+    tinyMCEInit()
     //tinymce, WYSIWYG event button => SAVE
     document.getElementById("saveBtn").addEventListener("click", function(){
     
@@ -89,7 +90,6 @@ function setLoggedInScreen(data) {
         title: title,
         content: content
     };
-    console.log(newText)
     fetch(HOST + 'documents/update', {
         method: 'post',
         headers: {
@@ -99,8 +99,7 @@ function setLoggedInScreen(data) {
     })
 })
             })
-        }
-        )
+        })
         list.append(li)
       })
       documents.append(list)
@@ -131,23 +130,22 @@ function setLoggedInScreen(data) {
 
   const newDiv = document.createElement("div");
   newDiv.setAttribute("id", "newDocument");
-  const newContent = document.createTextNode(`新しいドキュメントを書いてね`);
+  const newContent = document.createTextNode(`Write a new document`);
   document.body.innerHTML = `
-  <p>Title</p>
-  <textarea id="textTitle"></textarea>
-  <textarea id="textContent"></textarea>
-  <button id="saveBtn">SAVE</button>
-  <div id="textTitleResult"></div>
-  <div id="textResult"></div>`;
+        <p>Title</p>
+        <textarea id="textTitle"></textarea>
+        <textarea id="textContent"></textarea>
+        <button id="saveBtn">SAVE</button>
+        <div id="textTitleResult"></div>
+        <div id="textResult"></div>`;
   newDocument.appendChild(newContent);
 
-  //tinymce, WYSIWYG
-  tinyMCEInit()
+    //tinymce, WYSIWYG
+    tinyMCEInit()
     //tinymce, WYSIWYG event butoon => SAVE
     document.getElementById("saveBtn").addEventListener("click", function(){
         document.getElementById("textTitleResult").innerHTML = document.getElementById("textTitle").value;
         document.getElementById("textResult").innerHTML = document.getElementById("textContent").value;
-    
     
     //send data to database.
     let title = document.getElementById("textTitle").value;
@@ -157,7 +155,6 @@ function setLoggedInScreen(data) {
         title: title,
         content: content
     };
-    console.log(newText)
     fetch(HOST + 'documents/new', {
         method: 'post',
         headers: {
@@ -170,7 +167,6 @@ function setLoggedInScreen(data) {
     });
   });
 })
-
 
   //create back to page button.
   const backBtn = document.createElement("button");
@@ -201,7 +197,7 @@ function loginFailMessage(){
 function loginScreen(){
     document.body.innerHTML = 
     `<div id="adminMessage"></div>
-    <div id="loginResult">
+     <div id="loginResult">
         <h2>Log in</h2>
         <form>
             <input type="text" id="userName" placeholder="username">
