@@ -171,11 +171,6 @@ function setLoggedInScreen(data) {
         },
         body: JSON.stringify(newText)
     })
-    // TODO: check if result == "ok"
-    // if not, show alert
-    // otherwise show somewhere that document is saved
-    // and perhaps switch to read-only?
-    //.then(res => res.json()) // parse result
     .then(data => {
         console.log(data);
     });
