@@ -73,6 +73,19 @@ function setLoggedInScreen(data) {
         })
     }
 })
+    //tinymce, WYSIWYG event button => SAVE
+    document.getElementById("saveBtn").addEventListener("click", function(){
+    
+    //send data to database.
+    let title = document.getElementById("textTitle").value;
+    let content = document.getElementById("textContent").value;
+    let newText = {
+        userId: userId,
+        title: title,
+        content: content
+    };
+    console.log(newText)
+})
             })
         }
         )
