@@ -35,7 +35,20 @@ function setLoggedInScreen(data) {
         div.append(button)
         li.append(div)
         button.addEventListener("click", (e) => {
+            e.preventDefault();
+
             console.log("View doc " + docId)
+            const newDiv = document.createElement("div");
+            newDiv.setAttribute("id", "newDocument");
+            document.body.innerHTML = `
+  <p>Title</p>
+  <p id="textTitle"></p>
+  <div id="textContent"></div>
+  <button id="editBtn">Edit</button>`
+            let title = document.getElementById("textTitle")
+            title.innerText = doc.title
+            let text = document.getElementById("textContent")
+            text.innerHTML = doc.content
         }
         )
         list.append(li)
