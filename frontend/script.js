@@ -25,8 +25,19 @@ function setLoggedInScreen(data) {
       documents.append(p)
       let list = document.createElement("ul")
       data.forEach(doc => {
+        console.log(doc)
         let li = document.createElement("li")
-        li.innerHTML = `<div>${doc.title} <button id="edit${doc.documentId}">Edit</button></div>`
+        let docId = doc.documentID
+        let button = document.createElement("button")
+        button.innerText = "View"
+        let div = document.createElement("div")
+        div.append(doc.title + " ")
+        div.append(button)
+        li.append(div)
+        button.addEventListener("click", (e) => {
+            console.log("View doc " + docId)
+        }
+        )
         list.append(li)
       })
       documents.append(list)
