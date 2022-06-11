@@ -7,6 +7,8 @@ The example code is not designed with security in mind.
 
 ## http://localhost:3000/
 
+npm start
+
 
 ## Front file
 npm init
