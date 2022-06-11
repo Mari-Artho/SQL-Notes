@@ -7,11 +7,36 @@ function setLoggedInScreen(data) {
   let userName = data.userName;
   let userId = data.id;
   let upperName = userName.toUpperCase();
-  loginResult.textContent = `Log in user : ${upperName} (ID: ${userId})  `;
+  loginResult.textContent = `Logged in user : ${upperName} (ID: ${userId})  `;
+  // get list of all documents from that user
+
+  fetch(HOST + 'documents/' + userId, {
+    method: 'get',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  })
+  .then(res => res.json()) // parse result
+  .then(data => {    
+      if (data.length == 0)
+          return;
+      let p = document.createElement("p");
+      p.innerText = "Your documents:"
+      documents.append(p)
+      let list = document.createElement("ul")
+      data.forEach(doc => {
+        let li = document.createElement("li")
+        li.innerHTML = `<div>${doc.title} <button id="edit${doc.documentId}">Edit</button></div>`
+        list.append(li)
+      })
+      documents.append(list)
+    })
+
   //create new document button.
   const newDocumentBtn = document.createElement("button");
   newDocumentBtn.innerText = " + Create a new document";
-  loginResult.append(newDocumentBtn);
+  const newDocument = document.getElementById('newDocument');
+  newDocument.append(newDocumentBtn);
   //add id to subscribe btn.
   newDocumentBtn.setAttribute("id", "newDocumentBtn");
 
@@ -33,7 +58,6 @@ function setLoggedInScreen(data) {
   const newDiv = document.createElement("div");
   newDiv.setAttribute("id", "newDocument");
   const newContent = document.createTextNode(`新しいドキュメントを書いてね`);
-  const newDocument = document.getElementById('newDocument');
   document.body.innerHTML = `
   <header style="margin: 30px">ARTHO.Co.,Ltd.</header>
   <button>Add new document</button>
@@ -132,7 +156,7 @@ function loginScreen(){
             <input type="submit" id="loginBtn" value="Log In">
         </form>
     </div>
-
+    <div id="documents"></div>
     <div id="newDocument"></div>
     `
     //Log in button
