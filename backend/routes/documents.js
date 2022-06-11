@@ -24,6 +24,11 @@ router.get('/:id', function(req, res, next) {
     })
 })
 
+router.post('/update', function(req, res) {
+    console.log("Update: " + req.body.id + ": " + req.body.title)
+    //UPDATE `documents` SET `title` = 'Test2!', `content` = 'Another test!' WHERE `documents`.`id` = 2; 
+})
+
 router.post('/new', function(req, res) {
     console.log("New: " + req.body.userId + "'s " + req.body.title)
     let con = req.app.locals.con;

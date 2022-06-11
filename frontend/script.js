@@ -80,11 +80,18 @@ function setLoggedInScreen(data) {
     let title = document.getElementById("textTitle").value;
     let content = document.getElementById("textContent").value;
     let newText = {
-        userId: userId,
+        id: docId,
         title: title,
         content: content
     };
     console.log(newText)
+    fetch(HOST + 'documents/update', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newText)
+    })
 })
             })
         }
