@@ -7,8 +7,6 @@ The example code is not designed with security in mind.
 
 ## http://localhost:3000/
 
-npm start
-
 
 ## Front file
 npm init
@@ -47,6 +45,8 @@ npm i
 npm i mysql2
 
 npm i cors
+
+npm start
 
 ## mySQL settings
 host: "localhost",
