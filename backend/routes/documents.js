@@ -25,6 +25,7 @@ router.get('/:id', function(req, res, next) {
     })
 })
 
+//update
 router.post('/update', function(req, res) {
     console.log("Update: " + req.body.id + ": " + req.body.title)
     let con = req.app.locals.con;
@@ -43,6 +44,7 @@ router.post('/update', function(req, res) {
     })
 })
 
+//new document
 router.post('/new', function(req, res) {
     console.log("New: " + req.body.userId + "'s " + req.body.title)
     let con = req.app.locals.con;
@@ -74,7 +76,7 @@ router.post('/new', function(req, res) {
     })
 })
 
-//connect document data to database. AでDBへデータが送られているぞ？
+//connect document data to database. Use A to send data to Database even 'get'??
 router.get('/', function(req, res){
     req.app.locals.con.connect(function(err){
         if(err){
@@ -85,6 +87,7 @@ router.get('/', function(req, res){
         let content = ' document content2';
         // let sql = `INSERT INTO documents(title, content)
         //              VALUES("${title}", "${content}")`
+        
         let sql = `SELECT * FROM documents`;
         req.app.locals.con.query(sql, function(err,result){
             if(err){
