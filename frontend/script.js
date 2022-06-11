@@ -49,6 +49,18 @@ function setLoggedInScreen(data) {
             title.innerText = doc.title
             let text = document.getElementById("textContent")
             text.innerHTML = doc.content
+            let editBtn = document.getElementById("editBtn")
+            editBtn.addEventListener("click", (e) => {
+                document.body.innerHTML = `
+                <p>Title</p>
+                <textarea id="textTitle"></textarea>
+                <textarea id="textContent"></textarea>
+                <button id="saveBtn">SAVE</button>`
+                let title = document.getElementById("textTitle")
+                title.innerText = doc.title
+                let text = document.getElementById("textContent")
+                text.innerHTML = doc.content
+            })
         }
         )
         list.append(li)
