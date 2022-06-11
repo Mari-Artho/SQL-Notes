@@ -2,6 +2,21 @@ const HOST = 'http://localhost:3000/'
 
 loginScreen();
 
+function tinyMCEInit() {
+    tinymce.init({
+        selector: '#textContent',
+        plugins: "code",
+        toolbar: " undo redo forecolor backcolor stylesselect | bold | italic alignleft alignright code",
+        readonly : 1,
+    
+        setup: function(editor){
+            editor.on("change", function(){
+                editor.save();
+            })
+        }
+    })    
+}
+
 //Page to show in the browser when log in is successful
 function setLoggedInScreen(data) {
   let userName = data.userName;
@@ -60,19 +75,8 @@ function setLoggedInScreen(data) {
                 title.innerText = doc.title
                 let text = document.getElementById("textContent")
                 text.innerHTML = doc.content
-                 //tinymce, WYSIWYG
- tinymce.init({
-    selector: '#textContent',
-    plugins: "code",
-    toolbar: " undo redo forecolor backcolor stylesselect | bold | italic alignleft alignright code",
-    readonly : 1,
-
-    setup: function(editor){
-        editor.on("change", function(){
-            editor.save();
-        })
-    }
-})
+                //tinymce, WYSIWYG
+                tinyMCEInit()
     //tinymce, WYSIWYG event button => SAVE
     document.getElementById("saveBtn").addEventListener("click", function(){
     
@@ -136,19 +140,8 @@ function setLoggedInScreen(data) {
   <div id="textResult"></div>`;
   newDocument.appendChild(newContent);
 
- //tinymce, WYSIWYG
- tinymce.init({
-    selector: '#textContent',
-    plugins: "code",
-    toolbar: " undo redo forecolor backcolor stylesselect | bold | italic alignleft alignright code",
-    readonly : 1,
-
-    setup: function(editor){
-        editor.on("change", function(){
-            editor.save();
-        })
-    }
-})
+  //tinymce, WYSIWYG
+  tinyMCEInit()
     //tinymce, WYSIWYG event butoon => SAVE
     document.getElementById("saveBtn").addEventListener("click", function(){
         document.getElementById("textTitleResult").innerHTML = document.getElementById("textTitle").value;
